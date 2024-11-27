@@ -1,0 +1,114 @@
+body{
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg{
+    width: 90rem;
+}
+   h1{   font-size: 80px;
+    color: #08202a;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: #000000}
+
+    H2{font-size: 50px;
+        color: #08202a;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        color: #000000}
+
+        .io{ font-size: 60px;
+            color: #08202a;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            color: #000000;
+            margin-top: 12rem;}
+            
+            h4{font-size: 25px;
+                color: #08202a;
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                color: #0b0c0c}
+
+                h5{font-size: 45px;
+                color: #08202a;
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                color: #08060d;
+                margin-top: 3rem;}
+                h{font-size: 25px;
+                    color: #08202a;
+                    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                    color: #061a8f}
+
+                p{font-size: 18px;
+                    color: #08202a;
+                    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                    color: #020303}
+                    
+                    h6{font-size: 25px;
+                        color: #08202a;
+                        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                        color: #031076;
+                        }
+                        .kk{font-size: 18px;
+                            color: #08202a;
+                            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                            color: #080a0a}
+  
+  
+  .header img{
+    height: 50px;
+    width: 50px;
+  }
+  
+  
+  /* Style the header links */
+  .header a {
+    float: left;
+    color: white;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 25px;
+    border-radius: 4px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+  }
+  
+  /* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
+  .header a.logo {
+    font-size: 25px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  /* Change the background color on mouse-over */
+  .header a:hover {
+    background-color: rgb(88, 3, 3);
+    color: White;
+  }
+  
+  .header a.active {
+    background-color: rgb(54, 54, 1);
+    color: white;
+  }
+  
+  /* Float the link section to the right */
+  .header-Right {
+    float: right;
+  }
+
+  .footer{
+    position:fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(153, 245, 125);
+    color: rgb(13, 151, 75);
+    text-align: center;
+  }
+  #content{
+    color: maroon;
+    text-align: justify;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 75px;
+  }

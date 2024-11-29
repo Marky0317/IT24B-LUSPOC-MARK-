@@ -1,60 +1,96 @@
-const apiKey = 'a5712e740541248ce7883f0af8581be4';
-        const weatherContainer = document.getElementById('weather');
-        const searchInput = document.getElementById('search');
-        const zoomInButton = document.getElementById('zoomIn');
-        const zoomOutButton = document.getElementById('zoomOut');
-        let map;
-        let zoomLevel = 8;
+class WeatherApp {
+    constructor(apiKey, mapContainerId, weatherContainerId, searchInputId, zoomInButtonId, zoomOutButtonId, searchButtonId) {
+        this.apiKey = apiKey;
+        this.weatherContainer = document.getElementById(weatherContainerId);
+        this.searchInput = document.getElementById(searchInputId);
+        this.zoomInButton = document.getElementById(zoomInButtonId);
+        this.zoomOutButton = document.getElementById(zoomOutButtonId);
+        this.searchButton = document.getElementById(searchButtonId);
+        this.mapContainerId = mapContainerId;
 
-        // Initialize the map
-        function initMap() {
-            const initialCoordinates = [13.41, 122.56];
-            map = L.map('map').setView(initialCoordinates, zoomLevel);
+        this.map = null;
+        this.zoomLevel = 8;
 
-            // Add OpenStreetMap tiles
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-        }
+        this.initMap();
+        this.attachEventListeners();
+    }
 
-        // Fetch and display weather information
-        function searchWeather() {
-            const place = searchInput.value;
-            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${place},PH&appid=${apiKey}&units=metric`)
-                .then(response => response.json())
-                .then(data => {
-                    const temp = data.main.temp;
-                    const description = data.weather[0].description;
-                    const dangerLevel = getDangerLevel(temp);
-                    weatherContainer.innerHTML = `Temperature: ${temp}°C<br>Description: ${description}<br>Danger Level: ${dangerLevel}`;
+    // Initialize the map
+    initMap() {
+        const initialCoordinates = [13.41, 122.56];
+        this.map = L.map(this.mapContainerId).setView(initialCoordinates, this.zoomLevel);
 
-                    // Update map center
-                    const coordinates = [data.coord.lat, data.coord.lon];
-                    map.setView(coordinates, zoomLevel);
-                });
-        }
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(this.map);
+    }
 
-        // Determine danger level based on temperature
-        function getDangerLevel(temp) {
-            if (temp > 35) return 'High Danger';
-            if (temp > 25) return 'Moderate Danger';
-            return 'Low Danger';
-        }
+    // Fetch and display weather information
+    fetchWeather() {
+        const place = this.searchInput.value;
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${place},PH&appid=${this.apiKey}&units=metric`)
+            .then(response => response.json())
+            .then(data => this.updateWeather(data))
+            .catch(error => {
+                console.error("Error fetching weather data:", error);
+                this.weatherContainer.innerHTML = "Error fetching weather data. Please try again.";
+            });
+    }
 
-        // Zoom controls
-        zoomInButton.addEventListener('click', () => {
-            zoomLevel++;
-            map.setZoom(zoomLevel);
-        });
+    // Update the weather and map display
+    updateWeather(data) {
+        const temp = data.main.temp;
+        const description = data.weather[0].description;
+        const dangerLevel = this.getDangerLevel(temp);
 
-        zoomOutButton.addEventListener('click', () => {
-            zoomLevel--;
-            map.setZoom(zoomLevel);
-        });
+        this.weatherContainer.innerHTML = `
+            <p>Temperature: ${temp}°C</p>
+            <p>Description: ${description}</p>
+            <p>Danger Level: ${dangerLevel}</p>
+        `;
 
-        // Attach event listener to the search button
-        document.getElementById('searchButton').addEventListener('click', searchWeather);
+        // Update map center
+        const coordinates = [data.coord.lat, data.coord.lon];
+        this.map.setView(coordinates, this.zoomLevel);
+    }
 
-        // Initialize the map
-        initMap();
+    // Determine danger level based on temperature
+    getDangerLevel(temp) {
+        if (temp > 35) return 'High Danger';
+        if (temp > 25) return 'Moderate Danger';
+        return 'Low Danger';
+    }
+
+    // Attach event listeners for user interactions
+    attachEventListeners() {
+        this.zoomInButton.addEventListener('click', () => this.zoomIn());
+        this.zoomOutButton.addEventListener('click', () => this.zoomOut());
+        this.searchButton.addEventListener('click', () => this.fetchWeather());
+    }
+
+    // Zoom controls
+    zoomIn() {
+        this.zoomLevel++;
+        this.map.setZoom(this.zoomLevel);
+    }
+
+    zoomOut() {
+        this.zoomLevel--;
+        this.map.setZoom(this.zoomLevel);
+    }
+}
+
+// Initialize the WeatherApp
+document.addEventListener("DOMContentLoaded", () => {
+    const app = new WeatherApp(
+        'a5712e740541248ce7883f0af8581be4', // API key
+        'map',                             // Map container ID
+        'weather',                         // Weather container ID
+        'search',                          // Search input ID
+        'zoomIn',                          // Zoom In button ID
+        'zoomOut',                         // Zoom Out button ID
+        'searchButton'                     // Search button ID
+    );
+});
